@@ -1,0 +1,156 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-claude-bg font-sans text-claude-text antialiased;
+    overflow: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* 16px prevents iOS Safari from zooming into the composer on focus */
+  textarea {
+    font-size: 16px;
+  }
+}
+
+@layer utilities {
+  /* Full viewport height that survives mobile browser chrome show/hide */
+  .h-dvh-screen {
+    height: 100vh;
+  }
+
+  @supports (height: 100dvh) {
+    .h-dvh-screen {
+      height: 100dvh;
+    }
+  }
+
+  .pb-safe {
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0px));
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: #d6d3c9 transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #d6d3c9;
+    border-radius: 9999px;
+  }
+
+  /* New messages ease in like Claude's */
+  .claude-fade-in {
+    animation: claudeFadeIn 0.35s ease-out both;
+  }
+}
+
+/* Claude spark: rays scale around the centre in a travelling wave */
+.claude-spark-rays,
+.claude-spark-ray {
+  transform-box: view-box;
+  transform-origin: 50% 50%;
+}
+
+.claude-spark--animated .claude-spark-rays {
+  animation: claudeSparkSpin 5s linear infinite;
+}
+
+.claude-spark--animated .claude-spark-ray {
+  animation: claudeSparkRay 1.4s ease-in-out infinite;
+}
+
+@keyframes claudeSparkRay {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(0.42);
+  }
+}
+
+@keyframes claudeSparkSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Voice mode orb breathes while listening, ripples while speaking */
+.voice-orb--listening {
+  animation: voiceOrbBreathe 1.8s ease-in-out infinite;
+}
+
+.voice-orb--speaking {
+  animation: voiceOrbRipple 1.6s ease-out infinite;
+}
+
+/* Composer mic while dictating */
+.mic-listening {
+  animation: voiceOrbRipple 1.6s ease-out infinite;
+}
+
+@keyframes voiceOrbBreathe {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.25);
+  }
+  50% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 18px rgba(217, 119, 87, 0);
+  }
+}
+
+@keyframes voiceOrbRipple {
+  from {
+    box-shadow: 0 0 0 0 rgba(217, 119, 87, 0.35);
+  }
+  to {
+    box-shadow: 0 0 0 16px rgba(217, 119, 87, 0);
+  }
+}
+
+@keyframes claudeFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .claude-spark--animated .claude-spark-rays,
+  .claude-spark--animated .claude-spark-ray,
+  .voice-orb--listening,
+  .voice-orb--speaking,
+  .mic-listening,
+  .claude-fade-in {
+    animation: none;
+  }
+
+  .claude-spark--animated {
+    animation: claudeSparkFade 1.6s ease-in-out infinite;
+  }
+}
+
+@keyframes claudeSparkFade {
+  50% {
+    opacity: 0.45;
+  }
+}

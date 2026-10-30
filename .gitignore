@@ -1,0 +1,46 @@
+# Next.js frontend
+
+# Dependencies
+node_modules/
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# Build output
+.next/
+out/
+build/
+dist/
+.turbo/
+.vercel/
+.netlify/
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
+# Env files (NEXT_PUBLIC_* values end up in the browser bundle, others must stay private)
+.env
+.env.*
+!.env.example
+
+# Tests and coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Misc
+.DS_Store
+*.pem
+.eslintcache
